@@ -6,15 +6,15 @@
         <h3 class="title">登录</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="number">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="number"
+          v-model="loginForm.number"
+          placeholder="number"
+          name="number"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -41,6 +41,13 @@
         </span>
       </el-form-item>
 
+      <el-radio-group v-model="loginForm.user_type">
+        <el-radio-button :label="1">老师</el-radio-button>
+        <el-radio-button :label="2">学生</el-radio-button>
+      </el-radio-group>
+      <br/>
+      <br/>
+      
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="register">注册</el-button>
 
@@ -70,12 +77,14 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        number: '',
+        password: '',
+        user_type:1
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        number: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        user_type: [{ required: true}]
       },
       loading: false,
       passwordType: 'password',
