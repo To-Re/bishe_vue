@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">欢迎使用本考试系统 </div>
+    <div class="dashboard-text">{{ name }}</div>
   </div>
 </template>
 
