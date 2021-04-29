@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getKlassList } from '@/api/klass'
 
 export default {
   data() {
@@ -47,10 +47,13 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      // getList().then(response => {
-      //   this.list = response.data.items
+      getKlassList().then(response => {
+        this.list = response.items
         this.listLoading = false
-      // })
+      }).catch(error => {
+        this.listLoading = false
+        reject(error)
+      })
     }
   }
 }
