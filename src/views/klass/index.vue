@@ -10,7 +10,7 @@
     >
       <el-table-column align="center" label="班级id" width="95">
         <template slot-scope="scope">
-          {{ scope.row.id }}
+          {{ scope.row.klass_id }}
         </template>
       </el-table-column>
       <el-table-column label="班级名">
@@ -33,11 +33,7 @@ import { getKlassList } from '@/api/klass'
 export default {
   data() {
     return {
-      list: [
-        {"id":1,"klass_name":"nt","teacher_name":"wzy"},
-        {"id":2,"klass_name":"sb","teacher_name":"yzw"},
-        {"id":3,"klass_name":"sb","teacher_name":"yzw"}
-      ],
+      list: [],
       listLoading: true
     }
   },
@@ -48,7 +44,7 @@ export default {
     fetchData() {
       this.listLoading = true
       getKlassList().then(response => {
-        this.list = response.items
+        this.list = response.klasses
         this.listLoading = false
       }).catch(error => {
         this.listLoading = false
