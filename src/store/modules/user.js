@@ -56,7 +56,7 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        debugger
+        // debugger
         // const { data } = response
 
         // if (!data) {
@@ -72,6 +72,7 @@ const actions = {
 
         commit('SET_NAME', name)
         // commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         commit('SET_USER_TYPE', user_type)
         // resolve(data)
         resolve()
