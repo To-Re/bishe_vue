@@ -72,6 +72,12 @@ export const constantRoutes = [
         name: '班级列表',
         component: () => import('@/views/klass/index'),
         meta: { title: '班级列表', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: '创建班级',
+        component: () => import('@/views/klass/create'),
+        meta: { title: '班级列表', icon: 'table' }
       }
     ]
   },

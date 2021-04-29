@@ -50,7 +50,7 @@
       
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="register">注册</el-button>
-
+      
     </el-form>
   </div>
 </template>
@@ -121,13 +121,12 @@ export default {
             this.loading = false
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
     register() {
-      this.$router.push({ name:'/register', query: { id: row.id }})
+      this.$router.push({path:'/register'})
     }
   }
 }
