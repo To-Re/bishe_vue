@@ -139,6 +139,10 @@ export default {
             user_type: this.registerForm.user_type,
             name:this.registerForm.user_name.trim(),
         }).then(response => {
+        this.$message({
+          message: '注册成功',
+          type: 'success'
+        });
         this.$router.push({path:'/login'})
         this.loading = false
         resolve()
