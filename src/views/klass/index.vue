@@ -1,5 +1,11 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+        创建班级
+      </el-button>
+    </div>
+
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -41,6 +47,7 @@ export default {
     this.fetchData()
   },
   methods: {
+    // 得到班级列表
     fetchData() {
       this.listLoading = true
       getKlassList().then(response => {
@@ -50,7 +57,10 @@ export default {
         this.listLoading = false
         reject(error)
       })
-    }
+    },
+    handleCreate() {
+      this.$router.push({path:'/klass/create'})
+    },
   }
 }
 </script>

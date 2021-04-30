@@ -77,7 +77,7 @@ export const constantRoutes = [
         path: 'create',
         name: '创建班级',
         component: () => import('@/views/klass/create'),
-        meta: { title: '班级列表', icon: 'table' }
+        meta: { title: '创建班级', icon: 'el-icon-edit' }
       }
     ]
   },
