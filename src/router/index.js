@@ -78,9 +78,122 @@ export const constantRoutes = [
         name: '创建班级',
         component: () => import('@/views/klass/create'),
         meta: { title: '创建班级', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'update',
+        name: '编辑班级',
+        component: () => import('@/views/klass/update'),
+        meta: { title: '编辑班级', icon: 'el-icon-edit' },
+        hidden: true
       }
     ]
   },
+
+  {
+    path: '/question',
+    component: Layout,
+    redirect: '/question/list',
+    name: '题目管理',
+    meta: { title: '题目管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'list',
+        name: '题目列表',
+        component: () => import('@/views/question/list'),
+        meta: { title: '题目列表', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: '创建题目',
+        component: () => import('@/views/question/create'),
+        meta: { title: '创建题目', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'update',
+        name: '编辑题目',
+        component: () => import('@/views/question/update'),
+        meta: { title: '编辑题目', icon: 'el-icon-edit' },
+        hidden: true
+      }
+    ]
+  },
+
+  {
+    path: '/paper',
+    component: Layout,
+    redirect: '/paper/list',
+    name: '考卷管理',
+    meta: { title: '考卷管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'list',
+        name: '考卷列表',
+        component: () => import('@/views/paper/list'),
+        meta: { title: '考卷列表', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: '创建考卷',
+        component: () => import('@/views/paper/create'),
+        meta: { title: '创建考卷', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'update',
+        name: '编辑考卷',
+        component: () => import('@/views/paper/update'),
+        meta: { title: '编辑考卷', icon: 'el-icon-edit' },
+        hidden: true
+      }
+    ]
+  },
+
+  {
+    path: '/exam',
+    component: Layout,
+    redirect: '/exam/list',
+    name: '考试管理',
+    meta: { title: '考试管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'list',
+        name: '考试列表',
+        component: () => import('@/views/exam/list'),
+        meta: { title: '考试列表', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: '创建考试',
+        component: () => import('@/views/exam/create'),
+        meta: { title: '创建考试', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'update',
+        name: '编辑考试',
+        component: () => import('@/views/exam/update'),
+        meta: { title: '编辑考试', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'result/list',
+        name: '考试结果',
+        component: () => import('@/views/exam/result/list'),
+        meta: { title: '考试结果', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'result/detail',
+        name: '答题详情',
+        component: () => import('@/views/exam/result/detail'),
+        meta: { title: '答题详情', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'join',
+        name: '参加考试',
+        component: () => import('@/views/exam/join'),
+        meta: { title: '参加考试', icon: 'el-icon-edit' }
+      }
+    ]
+  },
+
+  
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
