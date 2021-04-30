@@ -22,3 +22,11 @@ export function updateKlass(data) {
     data
   })
 }
+
+export function klassDetail(data) {
+  return request({
+    url: '/api/teacher/klass/detail',
+    method: 'get',
+    data
+  })
+}

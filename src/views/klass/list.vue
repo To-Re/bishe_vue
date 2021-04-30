@@ -24,9 +24,15 @@
           {{ scope.row.klass_name }}
         </template>
       </el-table-column>
-      <el-table-column label="老师" width="110" align="center">
+      <el-table-column label="老师姓名" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.teacher_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="功能" width="200" align="center">
+        <template slot-scope="scope">
+          <el-button type="success" @click="handleUpdate(scope.row.klass_id)">详情</el-button>
+          <el-button type="danger" @click="handleUpdate(scope.row.klass_id)">更新</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,6 +66,9 @@ export default {
     },
     handleCreate() {
       this.$router.push({path:'/klass/create'})
+    },
+    handleUpdate(klass_id) {
+      this.$router.push({path:'/klass/update', query:{id:klass_id}})
     },
   }
 }

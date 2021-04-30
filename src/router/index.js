@@ -70,7 +70,7 @@ export const constantRoutes = [
       {
         path: 'list',
         name: '班级列表',
-        component: () => import('@/views/klass/index'),
+        component: () => import('@/views/klass/list'),
         meta: { title: '班级列表', icon: 'table' }
       },
       {
