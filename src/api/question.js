@@ -14,3 +14,11 @@ export function createQuestion(data) {
     data
   })
 }
+
+export function questionDetail(data) {
+  return request({
+    url: '/api/teacher/question/detail',
+    method: 'get',
+    params: data
+  })
+}

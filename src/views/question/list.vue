@@ -31,8 +31,8 @@
       </el-table-column>
       <el-table-column label="功能" width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="success" @click="handleUpdate(scope.row.klass_id)">详情</el-button>
-          <el-button type="danger" @click="handleUpdate(scope.row.klass_id)">更新</el-button>
+          <el-button type="success" @click="handleUpdate(scope.row.question_id)">详情</el-button>
+          <el-button type="danger" @click="handleUpdate(scope.row.question_id)">更新</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,6 +67,9 @@ export default {
     handleCreate() {
       this.$router.push({path:'/question/create'})
     },
+    handleUpdate(question_id) {
+      this.$router.push({path:'/question/update', query:{id:question_id}})
+    }
   }
 }
 </script>
