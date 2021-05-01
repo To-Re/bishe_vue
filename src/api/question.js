@@ -6,3 +6,11 @@ export function getQuestionList() {
     method: 'get'
   })
 }
+
+export function createQuestion(data) {
+  return request({
+    url: '/api/teacher/question/create',
+    method: 'post',
+    data
+  })
+}
