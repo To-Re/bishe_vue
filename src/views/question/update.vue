@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="题目id" >
-            <el-input v-model="form.id" disabled></el-input>
+            <el-input v-model="form.question_id" disabled></el-input>
         </el-form-item>
         <el-form-item label="题目描述">
             <el-input v-model="form.question_desc"></el-input>
@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import { questionDetail } from '@/api/question'
+import { questionDetail, updateQuestion } from '@/api/question'
 export default {
     data() {
         return {
             answer_tmp: [],
             form: {
-                id:0,
+                question_id:0,
                 question_desc: '',
                 question_answer:"",
                 question_type:1,
@@ -64,9 +64,9 @@ export default {
     },
     methods: {
         fetchData() {
-            this.form.id = this.$route.query.id
+            this.form.question_id = this.$route.query.id
             questionDetail({
-                question_id:this.form.id,
+                question_id:this.form.question_id,
             }).then(response => {
                 this.form.question_desc = response.question_desc
                 this.form.question_answer = response.question_answer
@@ -85,6 +85,19 @@ export default {
             })
         },
         onSubmit() {
+            updateQuestion(form).then(response => {
+                this.$message({
+                    message: '题目修改成功',
+                    type: 'success'
+                });
+                this.fetchData()
+            }).catch(error => {
+                this.$message({
+                    message: '修改题目失败',
+                    type: 'warning'
+                });
+                reject(error)
+            })
         }
     }
 }

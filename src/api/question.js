@@ -22,3 +22,11 @@ export function questionDetail(data) {
     params: data
   })
 }
+
+export function updateQuestion(data) {
+  return request({
+    url: '/api/teacher/question/update',
+    method: 'post',
+    data
+  })
+}
