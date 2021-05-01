@@ -50,12 +50,12 @@ export default {
             form: {
                 question_id:0,
                 question_desc: '',
-                question_answer:"",
+                question_answer:'',
                 question_type:1,
-                option_desc_a:"",
-                option_desc_b:"",
-                option_desc_c:"",
-                option_desc_d:""
+                option_desc_a:'',
+                option_desc_b:'',
+                option_desc_c:'',
+                option_desc_d:''
             }
         }
     },
@@ -85,7 +85,16 @@ export default {
             })
         },
         onSubmit() {
-            updateQuestion(form).then(response => {
+            this.form.question_answer = ""
+            this.answer_tmp.sort()
+            for(var i=0,len=this.answer_tmp.length;i<len;i++){
+                this.form.question_answer += this.answer_tmp[i]
+                if (i !== len-1) {
+                    this.form.question_answer+=";"
+                }
+            }
+
+            updateQuestion(this.form).then(response => {
                 this.$message({
                     message: '题目修改成功',
                     type: 'success'
