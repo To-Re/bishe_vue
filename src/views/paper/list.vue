@@ -56,7 +56,7 @@ export default {
     fetchData() {
       this.listLoading = true
       getPaperList().then(response => {
-        this.list = response.questions
+        this.list = response.papers
         this.listLoading = false
       }).catch(error => {
         this.listLoading = false
