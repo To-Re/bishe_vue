@@ -31,7 +31,7 @@ export function updatePaper(data) {
   })
 }
 
-export function PaperQuestionList(data) {
+export function paperQuestionList(data) {
   return request({
     url: '/api/teacher/paper/question/list',
     method: 'get',

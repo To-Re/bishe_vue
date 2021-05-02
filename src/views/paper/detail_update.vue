@@ -35,17 +35,22 @@
 
     <el-form ref="form" :model="paper_question_form" label-width="80px">
         <el-table v-loading="listLoading" :data="paper_question_form" element-loading-text="Loading" border fit highlight-current-row>
-            <el-table-column align="center" label="考题id" width="95">
+            <el-table-column align="center" label="题目id" width="95">
                 <template slot-scope="scope">
                 {{ scope.row.question_id }}
                 </template>
             </el-table-column>
-            <el-table-column label="考题描述">
+            <el-table-column label="题目描述">
                 <template slot-scope="scope">
                 {{ scope.row.question_desc }}
                 </template>
             </el-table-column>
-            <el-table-column label="考题分数" width="150">
+            <el-table-column label="题目类型" width="150">
+                <template slot-scope="scope">
+                {{ scope.row.question_type }}
+                </template>
+            </el-table-column>
+            <el-table-column label="单题分数" width="150">
                 <template slot-scope="scope">
                 {{ scope.row.question_score }}
                 </template>
@@ -99,7 +104,7 @@ export default {
             paperQuestionList({
                 paper_id:this.form.paper_id,
             }).then(response => {
-                this.paper_question_form = response
+                this.paper_question_form = response.paper_questions
             }).catch(error => {
                 reject(error)
             })
