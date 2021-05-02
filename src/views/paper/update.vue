@@ -40,7 +40,8 @@ export default {
             paperDetail({
                 paper_id:this.form.paper_id,
             }).then(response => {
-                this.form = response
+                this.form.paper_name = response.paper_name
+                this.form.score_limit = response.score_limit
             }).catch(error => {
                 this.$message({
                     message: '考卷详情获取失败',
