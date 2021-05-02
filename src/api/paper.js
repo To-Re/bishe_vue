@@ -6,3 +6,11 @@ export function getPaperList() {
     method: 'get'
   })
 }
+
+export function createPaper(data) {
+  return request({
+    url: '/api/teacher/paper/create',
+    method: 'post',
+    data
+  })
+}
