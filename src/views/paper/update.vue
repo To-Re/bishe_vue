@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { paperDetail } from '@/api/paper'
+import { paperDetail, updatePaper } from '@/api/paper'
 export default {
     data() {
         return {
@@ -51,7 +51,7 @@ export default {
             })
         },
         onSubmit() {
-            updateQuestion(this.form).then(response => {
+            updatePaper(this.form).then(response => {
                 this.$message({
                     message: '题目修改成功',
                     type: 'success'

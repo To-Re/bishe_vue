@@ -22,3 +22,11 @@ export function paperDetail(data) {
     params: data
   })
 }
+
+export function updatePaper(data) {
+  return request({
+    url: '/api/teacher/paper/update',
+    method: 'post',
+    data
+  })
+}
