@@ -38,3 +38,19 @@ export function paperQuestionList(data) {
     params: data
   })
 }
+
+export function bindPaperQuestion(data) {
+  return request({
+    url: '/api/teacher/paper/question/bind',
+    method: 'post',
+    params: data
+  })
+}
+
+export function deletePaperQuestion(data) {
+  return request({
+    url: '/api/teacher/paper/question/delete',
+    method: 'post',
+    params: data
+  })
+}

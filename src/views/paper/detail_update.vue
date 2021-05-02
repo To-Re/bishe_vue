@@ -22,11 +22,21 @@
                     v-model="add_question_form.question_id"
                     placeholder="题目id"
                     type="text"
-                    @input="checkQuestionId"
+                    @input="checkPositiveInteger"
                 >
                 </el-input>
             </el-col>
-            <el-col :span="2" :offset="16">
+            <el-col :span="3">
+                <el-input
+                    v-model="add_question_form.question_score"
+                    placeholder="题目分数"
+                    type="text"
+                    @input="checkPositiveInteger"
+                >
+                </el-input>
+            </el-col>
+
+            <el-col :span="2" :offset="13">
                 <el-button @click="$router.back(-1)">返回</el-button>
             </el-col>
         </el-row>
@@ -57,7 +67,7 @@
             </el-table-column>
             <el-table-column label="功能" width="150" align="center">
                 <template slot-scope="scope">
-                <el-button type="danger" @click="handleDeleteQuestion(scope.row.paper_id)">删除</el-button>
+                <el-button type="danger" @click="handleDeleteQuestion(scope.row.question_id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -66,7 +76,7 @@
 </template>
 
 <script>
-import { paperDetail, paperQuestionList } from '@/api/paper'
+import { paperDetail, paperQuestionList, bindPaperQuestion, deletePaperQuestion } from '@/api/paper'
 export default {
     data() {
         return {
@@ -77,19 +87,23 @@ export default {
             },
 
             add_question_form: {
+                paper_id:0,
                 question_id:'',
+                question_score:'',
             },
 
             paper_question_form: null
         }
     },
     created() {
+        this.add_question_form.paper_id = this.$route.query.id
+        this.form.paper_id = this.$route.query.id
         this.fetchPaperData()
         this.fetchPaperQuestionData()
     },
     methods: {
+        // 刷新页面所需数据
         fetchPaperData() {
-            this.form.paper_id = this.$route.query.id
             paperDetail({
                 paper_id:this.form.paper_id,
             }).then(response => {
@@ -100,7 +114,6 @@ export default {
             })
         },
         fetchPaperQuestionData() {
-            this.form.paper_id = this.$route.query.id
             paperQuestionList({
                 paper_id:this.form.paper_id,
             }).then(response => {
@@ -109,14 +122,34 @@ export default {
                 reject(error)
             })
         },
-        checkQuestionId() {
+        // 添加题目相关
+        checkPositiveInteger() {
             var pattern = /^[1-9][0-9]*$/
             if (!pattern.test(this.add_question_form.question_id)) {
                 this.add_question_form.question_id = ''
             }
+            if (!pattern.test(this.add_question_form.question_score)) {
+                this.add_question_form.question_score = ''
+            }
         },
-        onSubmit() {
-            
+        AddQuestion() {
+            bindPaperQuestion(this.add_question_form).then(response => {
+                this.fetchPaperData()
+                this.fetchPaperQuestionData()
+            }).catch(error => {
+                reject(error)
+            })
+        },
+        handleDeleteQuestion(qid) {
+            deletePaperQuestion({
+                paper_id:this.form.paper_id,
+                question_id:qid
+            }).then(response => {
+                this.fetchPaperData()
+                this.fetchPaperQuestionData()
+            }).catch(error => {
+                reject(error)
+            })
         }
     }
 }
