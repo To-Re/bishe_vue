@@ -143,6 +143,13 @@ export const constantRoutes = [
         component: () => import('@/views/paper/update'),
         meta: { title: '编辑考卷', icon: 'el-icon-edit' },
         hidden: true
+      },
+      {
+        path: 'detail_update',
+        name: '配置考题',
+        component: () => import('@/views/paper/detail_update'),
+        meta: { title: '配置考题', icon: 'el-icon-edit' },
+        hidden: true
       }
     ]
   },

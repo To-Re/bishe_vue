@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        创建班级
+        创建考卷
       </el-button>
     </div>
 
@@ -14,19 +14,25 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="班级id" width="95">
+      <el-table-column align="center" label="考卷id" width="95">
         <template slot-scope="scope">
-          {{ scope.row.klass_id }}
+          {{ scope.row.paper_id }}
         </template>
       </el-table-column>
-      <el-table-column label="班级名">
+      <el-table-column label="考卷名称">
         <template slot-scope="scope">
-          {{ scope.row.klass_name }}
+          {{ scope.row.paper_name }}
         </template>
       </el-table-column>
-      <el-table-column label="老师" width="110" align="center">
+      <el-table-column label="考卷分数" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.teacher_name }}</span>
+          <span>{{ scope.row.score_limit }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="功能" width="250" align="center">
+        <template slot-scope="scope">
+          <el-button type="danger" @click="handleUpdate(scope.row.question_id)">更新</el-button>
+          <el-button type="success" @click="handlePaperDetailUpdate(scope.row.question_id)">配置考题</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -34,7 +40,7 @@
 </template>
 
 <script>
-import { getKlassList } from '@/api/klass'
+import { getPaperList } from '@/api/paper'
 
 export default {
   data() {
@@ -47,11 +53,10 @@ export default {
     this.fetchData()
   },
   methods: {
-    // 得到班级列表
     fetchData() {
       this.listLoading = true
-      getKlassList().then(response => {
-        this.list = response.klasses
+      getPaperList().then(response => {
+        this.list = response.questions
         this.listLoading = false
       }).catch(error => {
         this.listLoading = false
@@ -59,8 +64,14 @@ export default {
       })
     },
     handleCreate() {
-      this.$router.push({path:'/klass/create'})
+      this.$router.push({path:'/paper/create'})
     },
+    handleUpdate(paper_id) {
+      this.$router.push({path:'/paper/update', query:{id:paper_id}})
+    },
+    handlePaperDetailUpdate(paper_id) {
+      this.$router.push({path:'/paper/detail_update', query:{id:paper_id}})
+    }
   }
 }
 </script>
