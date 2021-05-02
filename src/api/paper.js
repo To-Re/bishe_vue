@@ -14,3 +14,11 @@ export function createPaper(data) {
     data
   })
 }
+
+export function paperDetail(data) {
+  return request({
+    url: '/api/teacher/paper/detail',
+    method: 'get',
+    params: data
+  })
+}

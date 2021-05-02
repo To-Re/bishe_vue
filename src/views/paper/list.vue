@@ -31,8 +31,8 @@
       </el-table-column>
       <el-table-column label="功能" width="250" align="center">
         <template slot-scope="scope">
-          <el-button type="danger" @click="handleUpdate(scope.row.question_id)">更新</el-button>
-          <el-button type="success" @click="handlePaperDetailUpdate(scope.row.question_id)">配置考题</el-button>
+          <el-button type="danger" @click="handleUpdate(scope.row.paper_id)">更新</el-button>
+          <el-button type="success" @click="handlePaperDetailUpdate(scope.row.paper_id)">配置考题</el-button>
         </template>
       </el-table-column>
     </el-table>
