@@ -104,6 +104,7 @@ export default {
     methods: {
         // 刷新页面所需数据
         fetchPaperData() {
+            this.form.paper_id = this.$route.query.id
             paperDetail({
                 paper_id:this.form.paper_id,
             }).then(response => {
@@ -114,6 +115,7 @@ export default {
             })
         },
         fetchPaperQuestionData() {
+            this.form.paper_id = this.$route.query.id
             paperQuestionList({
                 paper_id:this.form.paper_id,
             }).then(response => {
@@ -133,6 +135,7 @@ export default {
             }
         },
         AddQuestion() {
+            this.add_question_form.paper_id = this.$route.query.id
             bindPaperQuestion({
                 paper_id: this.add_question_form.paper_id,
                 question_id: Number(this.add_question_form.question_id),
@@ -145,6 +148,7 @@ export default {
             })
         },
         handleDeleteQuestion(qid) {
+            this.form.paper_id = this.$route.query.id
             deletePaperQuestion({
                 paper_id:this.form.paper_id,
                 question_id:qid
