@@ -43,7 +43,7 @@ export function bindPaperQuestion(data) {
   return request({
     url: '/api/teacher/paper/question/bind',
     method: 'post',
-    params: data
+    data
   })
 }
 
@@ -51,6 +51,6 @@ export function deletePaperQuestion(data) {
   return request({
     url: '/api/teacher/paper/question/delete',
     method: 'post',
-    params: data
+    data
   })
 }
