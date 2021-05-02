@@ -124,7 +124,7 @@ export default {
         },
         // 添加题目相关
         checkPositiveInteger() {
-            var pattern = /^[1-9][0-9]*$/
+            var pattern = /^(0|[1-9][0-9]*)$/
             if (!pattern.test(this.add_question_form.question_id)) {
                 this.add_question_form.question_id = ''
             }
@@ -133,7 +133,11 @@ export default {
             }
         },
         AddQuestion() {
-            bindPaperQuestion(this.add_question_form).then(response => {
+            bindPaperQuestion({
+                paper_id: this.add_question_form.paper_id,
+                question_id: Number(this.add_question_form.question_id),
+                question_score: Number(this.add_question_form.question_score)
+            }).then(response => {
                 this.fetchPaperData()
                 this.fetchPaperQuestionData()
             }).catch(error => {
