@@ -1,112 +1,117 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="题目id" >
-            <el-input v-model="form.question_id" disabled></el-input>
+        <el-form-item label="考卷id" >
+            <el-input v-model="form.paper_id" disabled></el-input>
         </el-form-item>
-        <el-form-item label="题目描述">
-            <el-input v-model="form.question_desc"></el-input>
+        <el-form-item label="考卷名称">
+            <el-input v-model="form.paper_name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="选项A描述">
-            <el-input v-model="form.option_desc_a"></el-input>
+        <el-form-item label="考卷分数">
+            <el-input v-model="form.score_limit" disabled></el-input>
         </el-form-item>
-        <el-form-item label="选项B描述">
-            <el-input v-model="form.option_desc_b"></el-input>
-        </el-form-item>
-        <el-form-item label="选项C描述">
-            <el-input v-model="form.option_desc_c"></el-input>
-        </el-form-item>
-        <el-form-item label="选项D描述">
-            <el-input v-model="form.option_desc_d"></el-input>
-        </el-form-item>
+    </el-form>
 
-        <el-form-item label="题目类型">
-            <el-radio v-model="form.question_type" :label="1">单选题</el-radio>
-            <el-radio v-model="form.question_type" :label="2">多选题</el-radio>
-        </el-form-item>
+    <el-form ref="form" :model="add_question_form" label-width="80px">
+        <el-row>
+            <el-col :span="3">
+                <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="AddQuestion">添加考题</el-button>
+            </el-col>
+            <el-col :span="3">
+                <el-input
+                    v-model="add_question_form.question_id"
+                    placeholder="题目id"
+                    type="text"
+                    @input="checkQuestionId"
+                >
+                </el-input>
+            </el-col>
+            <el-col :span="2" :offset="16">
+                <el-button @click="$router.back(-1)">返回</el-button>
+            </el-col>
+        </el-row>
+    </el-form>
+    
 
-        <el-form-item label="答案">
-            <el-checkbox-group v-model="answer_tmp">
-                <el-checkbox label="A" name="type"></el-checkbox>
-                <el-checkbox label="B" name="type"></el-checkbox>
-                <el-checkbox label="C" name="type"></el-checkbox>
-                <el-checkbox label="D" name="type"></el-checkbox>
-            </el-checkbox-group>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="onSubmit">修改</el-button>
-            <el-button @click="$router.back(-1)">取消并返回</el-button>
-        </el-form-item>
+    <el-form ref="form" :model="paper_question_form" label-width="80px">
+        <el-table v-loading="listLoading" :data="paper_question_form" element-loading-text="Loading" border fit highlight-current-row>
+            <el-table-column align="center" label="考题id" width="95">
+                <template slot-scope="scope">
+                {{ scope.row.question_id }}
+                </template>
+            </el-table-column>
+            <el-table-column label="考题描述">
+                <template slot-scope="scope">
+                {{ scope.row.question_desc }}
+                </template>
+            </el-table-column>
+            <el-table-column label="考题分数" width="150">
+                <template slot-scope="scope">
+                {{ scope.row.question_score }}
+                </template>
+            </el-table-column>
+            <el-table-column label="功能" width="150" align="center">
+                <template slot-scope="scope">
+                <el-button type="danger" @click="handleDeleteQuestion(scope.row.paper_id)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
     </el-form>
   </div>
 </template>
 
 <script>
-import { questionDetail, updateQuestion } from '@/api/question'
+import { paperDetail, paperQuestionList } from '@/api/paper'
 export default {
     data() {
         return {
-            answer_tmp: [],
             form: {
-                question_id:0,
-                question_desc: '',
-                question_answer:'',
-                question_type:1,
-                option_desc_a:'',
-                option_desc_b:'',
-                option_desc_c:'',
-                option_desc_d:''
-            }
+                paper_id:0,
+                paper_name: '',
+                score_limit:0,
+            },
+
+            add_question_form: {
+                question_id:'',
+            },
+
+            paper_question_form: null
         }
     },
     created() {
-        this.fetchData()
+        this.fetchPaperData()
+        this.fetchPaperQuestionData()
     },
     methods: {
-        fetchData() {
-            this.form.question_id = this.$route.query.id
-            questionDetail({
-                question_id:this.form.question_id,
+        fetchPaperData() {
+            this.form.paper_id = this.$route.query.id
+            paperDetail({
+                paper_id:this.form.paper_id,
             }).then(response => {
-                this.form.question_desc = response.question_desc
-                this.form.question_answer = response.question_answer
-                this.form.question_type = response.question_type
-                this.form.option_desc_a = response.option_desc_a
-                this.form.option_desc_b = response.option_desc_b
-                this.form.option_desc_c = response.option_desc_c
-                this.form.option_desc_d = response.option_desc_d
-                this.answer_tmp = this.form.question_answer.split(";")
+                this.form.paper_name = response.paper_name
+                this.form.score_limit = response.score_limit
             }).catch(error => {
-                this.$message({
-                    message: '题目详情获取失败',
-                    type: 'warning'
-                });
                 reject(error)
             })
         },
-        onSubmit() {
-            this.form.question_answer = ""
-            this.answer_tmp.sort()
-            for(var i=0,len=this.answer_tmp.length;i<len;i++){
-                this.form.question_answer += this.answer_tmp[i]
-                if (i !== len-1) {
-                    this.form.question_answer+=";"
-                }
-            }
-
-            updateQuestion(this.form).then(response => {
-                this.$message({
-                    message: '题目修改成功',
-                    type: 'success'
-                });
-                this.fetchData()
+        fetchPaperQuestionData() {
+            this.form.paper_id = this.$route.query.id
+            paperQuestionList({
+                paper_id:this.form.paper_id,
+            }).then(response => {
+                this.paper_question_form = response
             }).catch(error => {
-                this.$message({
-                    message: '修改题目失败',
-                    type: 'warning'
-                });
                 reject(error)
             })
+        },
+        checkQuestionId() {
+            var pattern = /^[1-9][0-9]*$/
+            if (!pattern.test(this.add_question_form.question_id)) {
+                this.add_question_form.question_id = ''
+            }
+        },
+        onSubmit() {
+            
         }
     }
 }
