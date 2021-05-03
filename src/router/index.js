@@ -177,19 +177,14 @@ export const constantRoutes = [
         path: 'update',
         name: '编辑考试',
         component: () => import('@/views/exam/update'),
-        meta: { title: '编辑考试', icon: 'el-icon-edit' }
+        meta: { title: '编辑考试', icon: 'el-icon-edit' },
+        hidden: true
       },
       {
-        path: 'result/list',
-        name: '考试结果',
-        component: () => import('@/views/exam/result/list'),
-        meta: { title: '考试结果', icon: 'el-icon-edit' }
-      },
-      {
-        path: 'result/detail',
-        name: '答题详情',
-        component: () => import('@/views/exam/result/detail'),
-        meta: { title: '答题详情', icon: 'el-icon-edit' }
+        path: 'detail_update',
+        name: '考试配置班级',
+        component: () => import('@/views/exam/detail_update'),
+        meta: { title: '考试配置班级', icon: 'el-icon-edit' }
       },
       {
         path: 'join',
@@ -198,6 +193,46 @@ export const constantRoutes = [
         meta: { title: '参加考试', icon: 'el-icon-edit' }
       }
     ]
+  },
+
+  {
+    path: '/result',
+    component: Layout,
+    redirect: '/result/list',
+    name: '成绩管理',
+    meta: { title: '成绩管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: '/list',
+        name: '考试结束列表',
+        component: () => import('@/views/result/list'),
+        meta: { title: '考试结束列表', icon: 'el-icon-edit' }
+      },
+      {
+        path: '/detail',
+        name: '考试详情',
+        component: () => import('@/views/result/detail'),
+        meta: { title: '答题详情', icon: 'el-icon-edit' }
+      },
+      {
+        path: '/paper_detail',
+        name: '学生考卷详情',
+        component: () => import('@/views/result/paper_detail'),
+        meta: { title: '学生考卷详情', icon: 'el-icon-edit' }
+      }
+    ]
+  },
+
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/info/update',
+    children: [{
+      path: '/info/update',
+      name: '学生个人信息修改',
+      component: () => import('@/views/user/info_update'),
+      meta: { title: '学生个人信息修改', icon: 'el-icon-s-help' }
+    }]
   },
 
   
