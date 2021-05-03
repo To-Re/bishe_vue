@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { createKlass } from '@/api/klass'
+import { examDetail } from '@/api/exam'
 export default {
     data() {
         return {
@@ -61,20 +61,23 @@ export default {
     methods: {
         fetchData() {
             this.form.exam_id = this.$route.query.id
-        },
-        onSubmit() {
-            createKlass({
-                klass_name:this.form.name,
+            examDetail({
+                exam_id:this.form.exam_id,
             }).then(response => {
-                this.$message({
-                    message: '班级创建成功',
-                    type: 'success'
-                });
-                this.$router.push({path:'/klass/list'})
+                this.form.exam_name = response.exam_name
+                this.form.exam_begin_time = response.exam_begin_time*1000
+                this.form.exam_end_time = response.exam_end_time*1000
+                this.form.paper_id = response.paper_id
             }).catch(error => {
-                this.listLoading = false
+                this.$message({
+                    message: '考试详情获取失败',
+                    type: 'warning'
+                });
                 reject(error)
             })
+        },
+        onSubmit() {
+            
         }
     }
 }

@@ -14,3 +14,11 @@ export function createExam(data) {
     data
   })
 }
+
+export function examDetail(data) {
+  return request({
+    url: '/api/teacher/exam/detail',
+    method: 'get',
+    params: data
+  })
+}
