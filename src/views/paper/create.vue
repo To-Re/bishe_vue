@@ -26,7 +26,7 @@ export default {
         onSubmit() {
             createPaper(this.form).then(response => {
                 this.$message({
-                    message: '题目创建成功',
+                    message: '考卷创建成功',
                     type: 'success'
                 });
                 this.$router.push({path:'/paper/list'})

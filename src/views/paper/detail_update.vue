@@ -137,7 +137,7 @@ export default {
         AddQuestion() {
             this.add_question_form.paper_id = this.$route.query.id
             bindPaperQuestion({
-                paper_id: this.add_question_form.paper_id,
+                paper_id: Number(this.add_question_form.paper_id),
                 question_id: Number(this.add_question_form.question_id),
                 question_score: Number(this.add_question_form.question_score)
             }).then(response => {
@@ -150,8 +150,8 @@ export default {
         handleDeleteQuestion(qid) {
             this.form.paper_id = this.$route.query.id
             deletePaperQuestion({
-                paper_id:this.form.paper_id,
-                question_id:qid
+                paper_id: Number(this.form.paper_id),
+                question_id: Number(qid)
             }).then(response => {
                 this.fetchPaperData()
                 this.fetchPaperQuestionData()
