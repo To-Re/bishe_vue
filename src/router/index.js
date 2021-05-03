@@ -185,12 +185,6 @@ export const constantRoutes = [
         name: '考试配置班级',
         component: () => import('@/views/exam/detail_update'),
         meta: { title: '考试配置班级', icon: 'el-icon-edit' }
-      },
-      {
-        path: 'join',
-        name: '参加考试',
-        component: () => import('@/views/exam/join'),
-        meta: { title: '参加考试', icon: 'el-icon-edit' }
       }
     ]
   },
@@ -224,15 +218,36 @@ export const constantRoutes = [
   },
 
   {
-    path: '/user',
+    path: '/student',
     component: Layout,
-    redirect: '/user/info/update',
+    name: '学生功能',
+    redirect: '/student/info/update',
+    meta: { title: '学生功能', icon: 'el-icon-s-help' },
     children: [{
-      path: '/info/update',
-      name: '学生个人信息修改',
-      component: () => import('@/views/user/info_update'),
-      meta: { title: '学生个人信息修改', icon: 'el-icon-s-help' }
-    }]
+        path: '/info/update',
+        name: '学生个人信息修改',
+        component: () => import('@/views/student/info_update'),
+        meta: { title: '学生个人信息修改', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'exam/list',
+        name: '考试列表',
+        component: () => import('@/views/student/exam_list'),
+        meta: { title: '考试列表', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'exam/join',
+        name: '参加考试',
+        component: () => import('@/views/student/exam_join'),
+        meta: { title: '参加考试', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'exam/paper_detail',
+        name: '学生考卷详情',
+        component: () => import('@/views/student/paper_detail'),
+        meta: { title: '学生考卷详情', icon: 'el-icon-edit' }
+      }
+    ]
   },
 
   
