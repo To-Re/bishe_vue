@@ -143,6 +143,10 @@ export default {
             }).then(response => {
                 this.fetchPaperData()
                 this.fetchPaperQuestionData()
+                this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                });
             }).catch(error => {
                 reject(error)
             })
@@ -155,6 +159,10 @@ export default {
             }).then(response => {
                 this.fetchPaperData()
                 this.fetchPaperQuestionData()
+                this.$message({
+                    message: '删除成功',
+                    type: 'success'
+                });
             }).catch(error => {
                 reject(error)
             })
