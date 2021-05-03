@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        创建班级
+        创建考试
       </el-button>
     </div>
 
@@ -14,19 +14,43 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="班级id" width="95">
+      <el-table-column align="center" label="考试id" width="95">
         <template slot-scope="scope">
-          {{ scope.row.klass_id }}
+          {{ scope.row.exam_id }}
         </template>
       </el-table-column>
-      <el-table-column label="班级名">
+      <el-table-column label="考试名称">
         <template slot-scope="scope">
-          {{ scope.row.klass_name }}
+          {{ scope.row.exam_name }}
         </template>
       </el-table-column>
-      <el-table-column label="老师" width="110" align="center">
+
+
+      <el-table-column label="考试时间" width="450" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.teacher_name }}</span>
+          <el-date-picker
+            v-model="scope.row.TimeValue"
+            type="datetimerange"
+            value-formate="timestamp"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            disabled
+            >
+          </el-date-picker>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="考卷id" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.paper_id }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="功能" width="200" align="center">
+        <template slot-scope="scope">
+          <el-button type="success" @click="handleUpdate(scope.row.exam_id)">更新</el-button>
+          <el-button type="danger" @click="handleExamKlassUpdate(scope.row.exam_id)">配置班级</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -34,12 +58,16 @@
 </template>
 
 <script>
-import { getKlassList } from '@/api/klass'
+import { getExamList } from '@/api/exam'
 
 export default {
   data() {
     return {
-      list: [],
+      list: [
+        {
+          TimeValue: null,
+        }
+      ],
       listLoading: true
     }
   },
@@ -47,11 +75,16 @@ export default {
     this.fetchData()
   },
   methods: {
-    // 得到班级列表
     fetchData() {
       this.listLoading = true
-      getKlassList().then(response => {
-        this.list = response.klasses
+      getExamList().then(response => {
+        this.list = response.exams
+        for(let i=0, len = this.list.length;i<len;i++){
+          var date1 = new Date(this.list[i].exam_begin_time*1000);
+          var date2 = new Date(this.list[i].exam_end_time*1000);
+
+          this.list[i].TimeValue = new Array(date1, date2);
+        }
         this.listLoading = false
       }).catch(error => {
         this.listLoading = false
@@ -59,8 +92,14 @@ export default {
       })
     },
     handleCreate() {
-      this.$router.push({path:'/klass/create'})
+      this.$router.push({path:'/exam/create'})
     },
+    handleUpdate(exam_id) {
+      this.$router.push({path:'/exam/update', query:{id:exam_id}})
+    },
+    handleExamKlassUpdate(exam_id) {
+      this.$router.push({path:'/exam/detail_update', query:{id:exam_id}})
+    }
   }
 }
 </script>
