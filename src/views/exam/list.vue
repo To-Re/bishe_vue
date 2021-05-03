@@ -80,10 +80,7 @@ export default {
       getExamList().then(response => {
         this.list = response.exams
         for(let i=0, len = this.list.length;i<len;i++){
-          var date1 = new Date(this.list[i].exam_begin_time*1000);
-          var date2 = new Date(this.list[i].exam_end_time*1000);
-
-          this.list[i].TimeValue = new Array(date1, date2);
+          this.list[i].TimeValue = [this.list[i].exam_begin_time*1000, this.list[i].exam_end_time*1000];
         }
         this.listLoading = false
       }).catch(error => {
