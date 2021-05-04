@@ -42,7 +42,7 @@
             </el-col>
             <el-col :span="3">
                 <el-input
-                    v-model="exam_klass_form.klass_id"
+                    v-model="bind_form.klass_id"
                     placeholder="班级id"
                     type="text"
                     @input="checkPositiveInteger"
@@ -85,6 +85,10 @@ export default {
                 exam_begin_time:null,
                 exam_end_time:null,
                 paper_id:null
+            },
+            bind_form: {
+                exam_id:null,
+                klass_id:null,
             },
             exam_klass_form:[],
         }
@@ -131,8 +135,19 @@ export default {
             }
         },
         handleBindExamKlass() {
-            this.exam_form.exam_id = this.$route.query.id
-            
+            bindExamKlass({
+                exam_id:Number(this.$route.query.id),
+                klass_id:Number(this.bind_form.klass_id)
+            }).then(response => {
+                this.fetchExamData()
+                this.fetchExamKlassData()
+                this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                });
+            }).catch(error => {
+                reject(error)
+            })
         }
     }
 }
