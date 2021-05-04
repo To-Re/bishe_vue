@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { studentInfoDetail } from '@/api/student'
+import { studentInfoDetail, updateStudentInfo } from '@/api/student'
 export default {
     data() {
         return {
@@ -51,7 +51,23 @@ export default {
             })
         },
         onSubmit() {
-            
+            updateStudentInfo({
+                student_name: this.student_info_form.student_name,
+                password:this.student_info_form.password,
+                klass_id:Number(this.student_info_form.klass_id)
+            }).then(response => {
+                this.fetchData()
+                this.$message({
+                    message: '修改成功',
+                    type: 'success'
+                });
+            }).catch(error => {
+                this.$message({
+                    message: '修改失败',
+                    type: 'warning'
+                });
+                reject(error)
+            })
         }
     }
 }
