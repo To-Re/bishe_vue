@@ -1,11 +1,5 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        创建考试
-      </el-button>
-    </div>
-
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -25,32 +19,43 @@
         </template>
       </el-table-column>
 
-
-      <el-table-column label="考试时间" width="450" align="center">
+      <el-table-column label="考试开始时间" width="250">
         <template slot-scope="scope">
           <el-date-picker
-            v-model="scope.row.TimeValue"
-            type="datetimerange"
-            value-formate="timestamp"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            disabled
-            >
+                v-model="scope.row.exam_begin_time"
+                type="datetime"
+                placeholder="选择日期时间"
+                value-format="timestamp"
+                disabled
+          >
           </el-date-picker>
         </template>
       </el-table-column>
 
-      <el-table-column label="考卷id" width="150" align="center">
+      <el-table-column label="考试结束时间" width="250">
         <template slot-scope="scope">
-          <span>{{ scope.row.paper_id }}</span>
+          <el-date-picker
+                v-model="scope.row.exam_end_time"
+                type="datetime"
+                value-format="timestamp"
+                placeholder="选择日期时间"
+                disabled
+          >
+          </el-date-picker>
+        </template>
+      </el-table-column>
+      
+
+      <el-table-column label="得分" width="200">
+        <template slot-scope="scope">
+          {{ scope.row.exam_score }}
         </template>
       </el-table-column>
 
-      <el-table-column label="功能" width="200" align="center">
+      <el-table-column label="功能" width="250" align="center">
         <template slot-scope="scope">
-          <el-button type="success" @click="handleUpdate(scope.row.exam_id)">更新</el-button>
-          <el-button type="danger" @click="handleExamKlassUpdate(scope.row.exam_id)">配置班级</el-button>
+          <el-button type="success" @click="handleUpdate(scope.row.exam_id)">参加考试</el-button>
+          <el-button type="danger" @click="handleExamKlassUpdate(scope.row.exam_id)">作答结果</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -58,17 +63,12 @@
 </template>
 
 <script>
-import { getExamList } from '@/api/exam'
+import { getStudentExamList } from '@/api/exam'
 
 export default {
   data() {
     return {
-      list: [
-        {
-          TimeValue: null,
-        }
-      ],
-      listLoading: true
+      list:[],
     }
   },
   created() {
@@ -76,26 +76,19 @@ export default {
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getExamList().then(response => {
+      getStudentExamList().then(response => {
         this.list = response.exams
         for(let i=0, len = this.list.length;i<len;i++){
-          this.list[i].TimeValue = [this.list[i].exam_begin_time*1000, this.list[i].exam_end_time*1000];
+          this.list.exam_begin_time /= 1000
+          this.list.exam_end_time /= 1000
         }
-        this.listLoading = false
       }).catch(error => {
-        this.listLoading = false
+        this.$message({
+          message: '个人考试列表失败',
+          type: 'warning'
+      });
         reject(error)
       })
-    },
-    handleCreate() {
-      this.$router.push({path:'/exam/create'})
-    },
-    handleUpdate(exam_id) {
-      this.$router.push({path:'/exam/update', query:{id:exam_id}})
-    },
-    handleExamKlassUpdate(exam_id) {
-      this.$router.push({path:'/exam/detail_update', query:{id:exam_id}})
     }
   }
 }
