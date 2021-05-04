@@ -38,3 +38,11 @@ export function examKlassList(data) {
     params: data
   })
 }
+
+export function deleteExamKlass(data) {
+  return request({
+    url: '/api/teacher/exam/klass/delete',
+    method: 'post',
+    data
+  })
+}

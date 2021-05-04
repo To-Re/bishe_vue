@@ -66,7 +66,7 @@
             </el-table-column>
             <el-table-column label="功能" width="150" align="center">
                 <template slot-scope="scope">
-                <el-button type="danger" @click="handleDeleteQuestion(scope.row.question_id)">删除</el-button>
+                <el-button type="danger" @click="handleDeleteKlass(scope.row.klass_id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { examDetail, bindExamKlass, examKlassList } from '@/api/exam'
+import { examDetail, bindExamKlass, examKlassList, deleteExamKlass } from '@/api/exam'
 export default {
     data() {
         return {
@@ -143,6 +143,21 @@ export default {
                 this.fetchExamKlassData()
                 this.$message({
                     message: '添加成功',
+                    type: 'success'
+                });
+            }).catch(error => {
+                reject(error)
+            })
+        },
+        handleDeleteKlass(kid) {
+            deleteExamKlass({
+                exam_id:Number(this.$route.query.id),
+                klass_id:Number(kid)
+            }).then(response => {
+                this.fetchExamData()
+                this.fetchExamKlassData()
+                this.$message({
+                    message: '删除成功',
                     type: 'success'
                 });
             }).catch(error => {
