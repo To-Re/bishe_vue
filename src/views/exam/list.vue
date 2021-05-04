@@ -50,7 +50,7 @@
       <el-table-column label="功能" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="success" @click="handleUpdate(scope.row.exam_id)">更新</el-button>
-          <el-button type="danger" @click="handleExamKlassUpdate(scope.row.exam_id)">配置班级</el-button>
+          <el-button type="danger" @click="handleUpdate(scope.row.exam_id)">配置班级</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,9 +93,6 @@ export default {
     },
     handleUpdate(exam_id) {
       this.$router.push({path:'/exam/update', query:{id:exam_id}})
-    },
-    handleExamKlassUpdate(exam_id) {
-      this.$router.push({path:'/exam/detail_update', query:{id:exam_id}})
     }
   }
 }

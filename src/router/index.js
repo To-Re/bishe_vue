@@ -179,12 +179,6 @@ export const constantRoutes = [
         component: () => import('@/views/exam/update'),
         meta: { title: '编辑考试', icon: 'el-icon-edit' },
         hidden: true
-      },
-      {
-        path: 'detail_update',
-        name: '考试配置班级',
-        component: () => import('@/views/exam/detail_update'),
-        meta: { title: '考试配置班级', icon: 'el-icon-edit' }
       }
     ]
   },

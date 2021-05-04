@@ -22,3 +22,11 @@ export function examDetail(data) {
     params: data
   })
 }
+
+export function bindExamKlass(data) {
+  return request({
+    url: '/api/teacher/exam/klass/bind',
+    method: 'post',
+    data
+  })
+}
