@@ -30,3 +30,11 @@ export function bindExamKlass(data) {
     data
   })
 }
+
+export function examKlassList(data) {
+  return request({
+    url: '/api/teacher/exam/klass/list',
+    method: 'get',
+    params: data
+  })
+}

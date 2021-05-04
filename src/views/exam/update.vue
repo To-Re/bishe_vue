@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { examDetail, bindExamKlass } from '@/api/exam'
+import { examDetail, bindExamKlass, examKlassList } from '@/api/exam'
 export default {
     data() {
         return {
@@ -90,10 +90,11 @@ export default {
         }
     },
     created() {
-        this.fetchData()
+        this.fetchExamData()
+        this.fetchExamKlassData()
     },
     methods: {
-        fetchData() {
+        fetchExamData() {
             this.exam_form.exam_id = this.$route.query.id
             examDetail({
                 exam_id:this.exam_form.exam_id,
@@ -105,6 +106,19 @@ export default {
             }).catch(error => {
                 this.$message({
                     message: '考试详情获取失败',
+                    type: 'warning'
+                });
+                reject(error)
+            })
+        },
+        fetchExamKlassData(){
+            examKlassList({
+                exam_id:this.$route.query.id
+            }).then(response => {
+                this.exam_klass_form = response.klasses
+            }).catch(error => {
+                this.$message({
+                    message: '考试班级详情获取失败',
                     type: 'warning'
                 });
                 reject(error)
