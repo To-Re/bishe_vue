@@ -29,7 +29,7 @@
         </el-form-item>
        
         <el-form-item>
-            <el-button type="primary" @click="handleUpdateKlass">修改</el-button>
+            <el-button type="primary" @click="handleUpdateExam">修改</el-button>
             <el-button @click="$router.back(-1)">取消并返回</el-button>
         </el-form-item>
     </el-form>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { examDetail, bindExamKlass, examKlassList, deleteExamKlass } from '@/api/exam'
+import { examDetail, bindExamKlass, examKlassList, deleteExamKlass, updateExam } from '@/api/exam'
 export default {
     data() {
         return {
@@ -158,6 +158,24 @@ export default {
                 this.fetchExamKlassData()
                 this.$message({
                     message: '删除成功',
+                    type: 'success'
+                });
+            }).catch(error => {
+                reject(error)
+            })
+        },
+        handleUpdateExam() {
+            updateExam({
+                exam_id:this.exam_form.exam_id,
+                exam_name:this.exam_form.exam_name,
+                exam_begin_time:this.exam_form.exam_begin_time/1000,
+                exam_end_time:this.exam_form.exam_end_time/1000,
+                paper_id:this.exam_form.paper_id,
+            }).then(response => {
+                this.fetchExamData()
+                this.fetchExamKlassData()
+                this.$message({
+                    message: '修改成功',
                     type: 'success'
                 });
             }).catch(error => {

@@ -46,3 +46,11 @@ export function deleteExamKlass(data) {
     data
   })
 }
+
+export function updateExam(data) {
+  return request({
+    url: '/api/teacher/exam/update',
+    method: 'post',
+    data
+  })
+}
