@@ -233,7 +233,8 @@ export const constantRoutes = [
         path: 'exam/join',
         name: '参加考试',
         component: () => import('@/views/student/exam_join'),
-        meta: { title: '参加考试', icon: 'el-icon-edit' }
+        meta: { title: '参加考试', icon: 'el-icon-edit' },
+        hidden: true
       }
     ]
   },

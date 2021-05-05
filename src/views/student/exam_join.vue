@@ -1,74 +1,93 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        创建考试
-      </el-button>
-    </div>
-
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column align="center" label="考试id" width="95">
-        <template slot-scope="scope">
-          {{ scope.row.exam_id }}
-        </template>
-      </el-table-column>
-      <el-table-column label="考试名称">
-        <template slot-scope="scope">
-          {{ scope.row.exam_name }}
-        </template>
-      </el-table-column>
-
-
-      <el-table-column label="考试时间" width="450" align="center">
-        <template slot-scope="scope">
+    <el-form ref="form" :model="exam_form" label-width="120px">
+        <el-form-item label="考试名称">
+            <el-input v-model="exam_form.exam_name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="总分">
+            <el-input v-model="exam_form.score_limit" disabled></el-input>
+        </el-form-item>
+        
+        <el-form-item label="考试结束时间">
           <el-date-picker
-            v-model="scope.row.TimeValue"
-            type="datetimerange"
-            value-formate="timestamp"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            disabled
-            >
+                v-model="exam_form.exam_end_time"
+                type="datetime"
+                value-format="timestamp"
+                placeholder="选择日期时间"
+                disabled
+          >
           </el-date-picker>
-        </template>
-      </el-table-column>
+        </el-form-item>
+    </el-form>
 
-      <el-table-column label="考卷id" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.paper_id }}</span>
-        </template>
-      </el-table-column>
 
-      <el-table-column label="功能" width="200" align="center">
-        <template slot-scope="scope">
-          <el-button type="success" @click="handleUpdate(scope.row.exam_id)">更新</el-button>
-          <el-button type="danger" @click="handleExamKlassUpdate(scope.row.exam_id)">配置班级</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-form ref="form" :model="question_list" label-width="80px">
+        <el-table v-loading="listLoading" :data="question_list" element-loading-text="Loading" border fit highlight-current-row>
+            <el-table-column label="题目描述">
+                <template slot-scope="scope">
+                {{ scope.row.question_desc }}
+                </template>
+            </el-table-column>
+
+            <el-table-column label="选项">
+                <template slot-scope="scope">
+                    <el-checkbox-group v-model="scope.row.answer_tmp">
+                        <el-checkbox label="A" name="type">
+                          {{scope.row.option_desc_a}}
+                        </el-checkbox> <br/>
+                        <el-checkbox label="B" name="type">
+                          {{scope.row.option_desc_b}}
+                        </el-checkbox> <br/>
+                        <el-checkbox label="C" name="type">
+                          {{scope.row.option_desc_c}}
+                        </el-checkbox> <br/>
+                        <el-checkbox label="D" name="type">
+                          {{scope.row.option_desc_d}}
+                        </el-checkbox>
+                    </el-checkbox-group>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="tmp ans" width="100">
+                <template slot-scope="scope">
+                <el-input v-model="scope.row.answer_tmp"></el-input>
+                </template>
+            </el-table-column>
+            <el-table-column label="tmp ans 字符串" width="100">
+                <template slot-scope="scope">
+                {{ scope.row.answer }}
+                </template>
+            </el-table-column>
+            <el-table-column label="题目类型" width="100">
+                <template slot-scope="scope">
+                {{ scope.row.question_type }}
+                </template>
+            </el-table-column>
+            <el-table-column label="单题分数" width="80">
+                <template slot-scope="scope">
+                {{ scope.row.question_score }}
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-form>
+    
+
+    <el-button type="success" @click="handleCommit">交卷</el-button>
   </div>
 </template>
 
 <script>
-import { getExamList } from '@/api/exam'
+import { getStudentExamDetail } from '@/api/student'
 
 export default {
   data() {
     return {
-      list: [
-        {
-          TimeValue: null,
-        }
-      ],
-      listLoading: true
+      exam_form: {
+        exam_name:null,
+        score_limit:null,
+        exam_end_time:null,
+      },
+      question_list:null,
     }
   },
   created() {
@@ -76,26 +95,24 @@ export default {
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getExamList().then(response => {
-        this.list = response.exams
-        for(let i=0, len = this.list.length;i<len;i++){
-          this.list[i].TimeValue = [this.list[i].exam_begin_time*1000, this.list[i].exam_end_time*1000];
+      getStudentExamDetail({
+        exam_id:this.$route.query.id,
+      }).then(response => {
+        this.question_list = response.questions
+        this.exam_form.exam_name = response.exam_name
+        this.exam_form.score_limit = response.score_limit
+        this.exam_form.exam_end_time = response.exam_end_time*1000
+        for(let i=0, len = this.question_list.length;i<len;i++){
+          this.question_list[i].answer_tmp = new Array()
+          this.question_list[i].answer_tmp = this.question_list[i].student_answer.split(";")
         }
-        this.listLoading = false
       }).catch(error => {
-        this.listLoading = false
+        this.$message({
+          message: '考试内容获取失败',
+          type: 'warning'
+        });
         reject(error)
       })
-    },
-    handleCreate() {
-      this.$router.push({path:'/exam/create'})
-    },
-    handleUpdate(exam_id) {
-      this.$router.push({path:'/exam/update', query:{id:exam_id}})
-    },
-    handleExamKlassUpdate(exam_id) {
-      this.$router.push({path:'/exam/detail_update', query:{id:exam_id}})
     }
   }
 }

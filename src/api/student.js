@@ -8,9 +8,17 @@ export function studentInfoDetail() {
 }
 
 export function updateStudentInfo(data) {
-    return request({
-      url: '/api/student/info/update',
-      method: 'post',
-      data
-    })
-  }
+  return request({
+    url: '/api/student/info/update',
+    method: 'post',
+    data
+  })
+}
+
+export function getStudentExamDetail(data) {
+  return request({
+    url: '/api/student/exam/detail',
+    method: 'get',
+    params: data
+  })
+}
