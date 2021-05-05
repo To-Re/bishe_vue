@@ -234,12 +234,6 @@ export const constantRoutes = [
         name: '参加考试',
         component: () => import('@/views/student/exam_join'),
         meta: { title: '参加考试', icon: 'el-icon-edit' }
-      },
-      {
-        path: 'exam/paper_detail',
-        name: '学生考卷详情',
-        component: () => import('@/views/student/paper_detail'),
-        meta: { title: '学生考卷详情', icon: 'el-icon-edit' }
       }
     ]
   },
