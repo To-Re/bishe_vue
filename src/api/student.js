@@ -22,3 +22,11 @@ export function getStudentExamDetail(data) {
     params: data
   })
 }
+
+export function commitAnswer(data) {
+  return request({
+    url: '/api/student/exam/commit',
+    method: 'post',
+    data
+  })
+}

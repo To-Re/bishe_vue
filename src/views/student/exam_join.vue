@@ -18,6 +18,7 @@
           >
           </el-date-picker>
         </el-form-item>
+        <el-button type="danger" @click="$router.back(-1)">返回</el-button>
     </el-form>
 
 
@@ -53,9 +54,9 @@
                 <el-input v-model="scope.row.answer_tmp"></el-input>
                 </template>
             </el-table-column>
-            <el-table-column label="tmp ans 字符串" width="100">
+            <el-table-column label="得分" width="100">
                 <template slot-scope="scope">
-                {{ scope.row.answer }}
+                {{ scope.row.question_id }}
                 </template>
             </el-table-column>
             <el-table-column label="题目类型" width="100">
@@ -77,7 +78,7 @@
 </template>
 
 <script>
-import { getStudentExamDetail } from '@/api/student'
+import { getStudentExamDetail, commitAnswer } from '@/api/student'
 
 export default {
   data() {
@@ -113,6 +114,39 @@ export default {
           message: '考试内容获取失败',
           type: 'warning'
         });
+        reject(error)
+      })
+    },
+    handleCommit() {
+      for(let i=0, len = this.question_list.length;i<len;i++){
+        this.question_list[i].student_answer = ""
+        this.question_list[i].answer_tmp.sort()
+        for(var j = 0, sz = this.question_list[i].answer_tmp.length; j < sz; j++) {
+          this.question_list[i].student_answer += this.question_list[i].answer_tmp[j]
+          if (j !== sz-1) {
+            this.question_list[i].student_answer+=";"
+          }
+        }
+      }
+      var student_answer = {
+        exam_id:Number(this.$route.query.id),
+        question_answers:[],
+      }
+      for(var i=0, len = this.question_list.length;i<len;i++){
+        student_answer.question_answers.push(
+          {
+            question_id:this.question_list[i].question_id,
+            answer:this.question_list[i].student_answer
+          }
+        )
+      }
+      commitAnswer(student_answer).then(response => {
+        this.$message({
+          message: '交卷创建成功',
+          type: 'success'
+        });
+        this.fetchData()
+      }).catch(error => {
         reject(error)
       })
     }
