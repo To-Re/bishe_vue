@@ -54,8 +54,8 @@
 
       <el-table-column label="功能" width="250" align="center">
         <template slot-scope="scope">
-          <el-button type="success" @click="handleUpdate(scope.row.exam_id)">参加考试</el-button>
-          <el-button type="danger" @click="handleExamKlassUpdate(scope.row.exam_id)">作答结果</el-button>
+          <el-button type="success" @click="handleJoin(scope.row.exam_id)">参加考试</el-button>
+          <el-button type="danger" @click="handleExamResult(scope.row.exam_id)">作答结果</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -89,6 +89,12 @@ export default {
       });
         reject(error)
       })
+    },
+    handleJoin(exam_id) {
+      this.$router.push({path:'/student/exam/join', query:{id:exam_id}})
+    },
+    handleExamResult(exam_id) {
+      this.$router.push({path:'/student/exam/paper_detail', query:{id:exam_id}})
     }
   }
 }
