@@ -103,8 +103,10 @@ export default {
         this.exam_form.score_limit = response.score_limit
         this.exam_form.exam_end_time = response.exam_end_time*1000
         for(let i=0, len = this.question_list.length;i<len;i++){
-          this.question_list[i].answer_tmp = new Array()
-          this.question_list[i].answer_tmp = this.question_list[i].student_answer.split(";")
+          this.$set(this.question_list[i], "answer_tmp", []);
+          if (this.question_list[i].student_answer != "") {
+            this.$set(this.question_list[i], "answer_tmp", this.question_list[i].student_answer);
+          }
         }
       }).catch(error => {
         this.$message({
