@@ -58,7 +58,7 @@ export function updateExam(data) {
 
 export function getStudentExamList() {
   return request({
-    url: '/api/teacher/student_exam/list',
+    url: '/api/student/exam/list',
     method: 'get'
   })
 }

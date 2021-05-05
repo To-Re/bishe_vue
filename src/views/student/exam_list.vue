@@ -46,9 +46,9 @@
       </el-table-column>
       
 
-      <el-table-column label="得分" width="200">
+      <el-table-column label="学生得分" width="200">
         <template slot-scope="scope">
-          {{ scope.row.exam_score }}
+          {{ scope.row.exam_student_score }}
         </template>
       </el-table-column>
 
@@ -79,8 +79,8 @@ export default {
       getStudentExamList().then(response => {
         this.list = response.exams
         for(let i=0, len = this.list.length;i<len;i++){
-          this.list.exam_begin_time /= 1000
-          this.list.exam_end_time /= 1000
+          this.list[i].exam_begin_time *= 1000
+          this.list[i].exam_end_time *= 1000
         }
       }).catch(error => {
         this.$message({
