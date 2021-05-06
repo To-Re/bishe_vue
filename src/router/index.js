@@ -191,19 +191,19 @@ export const constantRoutes = [
     meta: { title: '成绩管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: '/list',
+        path: 'list',
         name: '考试结束列表',
         component: () => import('@/views/result/list'),
         meta: { title: '考试结束列表', icon: 'el-icon-edit' }
       },
       {
-        path: '/detail',
-        name: '考试详情',
+        path: 'detail',
+        name: '考试学生成绩列表',
         component: () => import('@/views/result/detail'),
-        meta: { title: '答题详情', icon: 'el-icon-edit' }
+        meta: { title: '考试学生成绩列表', icon: 'el-icon-edit' }
       },
       {
-        path: '/paper_detail',
+        path: 'paper_detail',
         name: '学生考卷详情',
         component: () => import('@/views/result/paper_detail'),
         meta: { title: '学生考卷详情', icon: 'el-icon-edit' }
@@ -218,7 +218,7 @@ export const constantRoutes = [
     redirect: '/student/info/update',
     meta: { title: '学生功能', icon: 'el-icon-s-help' },
     children: [{
-        path: '/info/update',
+        path: 'info/update',
         name: '学生个人信息修改',
         component: () => import('@/views/student/info_update'),
         meta: { title: '学生个人信息修改', icon: 'el-icon-s-help' }
