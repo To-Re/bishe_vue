@@ -56,7 +56,7 @@ export default {
         exam_id:this.$route.query.exam_id,
         klass_id:this.$route.query.klass_id
       }).then(response => {
-        this.list = response.klass_results
+        this.list = response.student_results
       }).catch(error => {
         this.$message({
           message: '获取信息失败',
