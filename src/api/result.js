@@ -6,3 +6,11 @@ export function getResultList() {
     method: 'get'
   })
 }
+
+export function getResultDetail(data) {
+  return request({
+    url: '/api/teacher/result/detail',
+    method: 'get',
+    params: data
+  })
+}

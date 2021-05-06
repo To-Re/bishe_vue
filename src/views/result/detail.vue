@@ -1,11 +1,5 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        创建班级
-      </el-button>
-    </div>
-
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -14,53 +8,69 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="班级id" width="95">
+      <el-table-column label="学生id" width="110">
         <template slot-scope="scope">
-          {{ scope.row.klass_id }}
+          {{ scope.row.student_id }}
         </template>
       </el-table-column>
-      <el-table-column label="班级名">
+      <el-table-column label="学生姓名" align="center">
         <template slot-scope="scope">
-          {{ scope.row.klass_name }}
+          <span>{{ scope.row.student_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="老师" width="110" align="center">
+      <el-table-column label="考试状态" width="200" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.teacher_name }}</span>
+          <span>{{ scope.row.student_result_status }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="分数" width="200" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.student_score }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="功能" width="120" align="center">
+        <template slot-scope="scope">
+          <el-button type="success" @click="handleStudentPaperDetail(scope.row.student_id)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-button @click="$router.back(-1)">返回</el-button>
   </div>
 </template>
 
 <script>
-import { getKlassList } from '@/api/klass'
+import { getResultDetail } from '@/api/result'
 
 export default {
   data() {
     return {
       list: [],
-      listLoading: true
     }
   },
   created() {
     this.fetchData()
   },
   methods: {
-    // 得到班级列表
     fetchData() {
-      this.listLoading = true
-      getKlassList().then(response => {
-        this.list = response.klasses
-        this.listLoading = false
+      getResultDetail({
+        exam_id:this.$route.query.exam_id,
+        klass_id:this.$route.query.klass_id
+      }).then(response => {
+        this.list = response.klass_results
       }).catch(error => {
-        this.listLoading = false
+        this.$message({
+          message: '获取信息失败',
+          type: 'warning'
+        });
         reject(error)
       })
     },
-    handleCreate() {
-      this.$router.push({path:'/klass/create'})
-    },
+    handleStudentPaperDetail(student_id) {
+      this.$router.push({
+        path:'/result/paper_detail',
+        query:{student_id:student_id, exam_id:this.$route.query.exam_id}
+      })
+    }
   }
 }
 </script>

@@ -189,6 +189,7 @@ export const constantRoutes = [
     redirect: '/result/list',
     name: '成绩管理',
     meta: { title: '成绩管理', icon: 'el-icon-s-help' },
+    alwaysShow: true,
     children: [
       {
         path: 'list',
@@ -200,13 +201,15 @@ export const constantRoutes = [
         path: 'detail',
         name: '考试学生成绩列表',
         component: () => import('@/views/result/detail'),
-        meta: { title: '考试学生成绩列表', icon: 'el-icon-edit' }
+        meta: { title: '考试学生成绩列表', icon: 'el-icon-edit' },
+        hidden: true
       },
       {
         path: 'paper_detail',
         name: '学生考卷详情',
         component: () => import('@/views/result/paper_detail'),
-        meta: { title: '学生考卷详情', icon: 'el-icon-edit' }
+        meta: { title: '学生考卷详情', icon: 'el-icon-edit' },
+        hidden: true
       }
     ]
   },
