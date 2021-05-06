@@ -7,6 +7,9 @@
         <el-form-item label="总分">
             <el-input v-model="exam_form.score_limit" disabled></el-input>
         </el-form-item>
+        <el-form-item label="最终得分">
+            <el-input v-model="exam_form.student_score" disabled></el-input>
+        </el-form-item>
         
         <el-form-item label="考试结束时间">
           <el-date-picker
@@ -49,14 +52,10 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="tmp ans" width="100">
-                <template slot-scope="scope">
-                <el-input v-model="scope.row.answer_tmp"></el-input>
-                </template>
-            </el-table-column>
+            
             <el-table-column label="得分" width="100">
                 <template slot-scope="scope">
-                {{ scope.row.question_id }}
+                {{ scope.row.question_student_score }}
                 </template>
             </el-table-column>
             <el-table-column label="题目类型" width="100">
@@ -87,6 +86,7 @@ export default {
         exam_name:null,
         score_limit:null,
         exam_end_time:null,
+        student_score:null,
       },
       question_list:null,
     }
@@ -103,10 +103,12 @@ export default {
         this.exam_form.exam_name = response.exam_name
         this.exam_form.score_limit = response.score_limit
         this.exam_form.exam_end_time = response.exam_end_time*1000
+        this.exam_form.student_score = response.student_score
+
         for(let i=0, len = this.question_list.length;i<len;i++){
           this.$set(this.question_list[i], "answer_tmp", []);
           if (this.question_list[i].student_answer != "") {
-            this.$set(this.question_list[i], "answer_tmp", this.question_list[i].student_answer);
+            this.$set(this.question_list[i], "answer_tmp", this.question_list[i].student_answer.split(";"));
           }
         }
       }).catch(error => {
