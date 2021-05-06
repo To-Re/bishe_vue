@@ -17,7 +17,7 @@ export function getResultDetail(data) {
 
 export function getStudentResultPaperDetail(data) {
   return request({
-    url: '/api/student/result/paper/detail',
+    url: '/api/teacher/result/paper/detail',
     method: 'get',
     params: data
   })
